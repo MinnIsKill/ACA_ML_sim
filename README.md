@@ -1,2 +1,3 @@
-# BT-tbn
-Bachelor's Thesis Repo - to be named
+# BACHELOR'S THESIS
+## Simulation of Biological Processes using Asynchronous Cellular Automata and Machine Learning
+TBD
