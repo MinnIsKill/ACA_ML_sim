@@ -48,9 +48,9 @@
 
 % Pro seznam zkratek lze využít balíček Glossaries - nutno odkomentovat i níže a při kompilaci z konzoly i v Makefile (plnou verzi pro Perl, nebo lite)
 % The Glossaries package can be used for the list of abbreviations - it is necessary to uncomment also below. When compiling from the console also in the Makefile (full version for Perl or lite)
-%\usepackage{glossaries}
-%\usepackage{glossary-superragged}
-%\makeglossaries 
+\usepackage{glossaries}
+\usepackage{glossary-superragged}
+\makeglossaries 
 
 % Nastavení cesty k obrázkům
 % Setting of a path to the pictures
@@ -193,10 +193,10 @@ I have listed all the literary sources, publications and other sources, which we
 % Kompilace po částech (rychlejší, ale v náhledu nemusí být vše aktuální)
 % Compilation piecewise (faster, but not all parts in preview will be up-to-date)
 % Další informace viz / For more information see https://www.overleaf.com/learn/latex/Multi-file_LaTeX_projects
-% \usepackage{subfiles}
+ \usepackage{subfiles}
 
 % Nechcete-li, aby se u oboustranného tisku roztahovaly mezery pro zaplnění stránky, odkomentujte následující řádek / If you do not want enlarged spacing for filling of the pages in case of duplex printing, uncomment the following line
-% \raggedbottom
+ \raggedbottom
 
 \begin{document}
   % Vysazeni titulnich stran / Typesetting of the title pages
@@ -237,11 +237,11 @@ I have listed all the literary sources, publications and other sources, which we
   %  \renewcommand*\entryname{Skratka}
   %  \renewcommand*\descriptionname{Význam}
   %\fi
-  %\ifenglish
-  %  \renewcommand*\glossaryname{List of abbreviations}%
-  %  \renewcommand*\entryname{Abbreviation}
-  %  \renewcommand*\descriptionname{Meaning}
-  %\fi
+  \ifenglish
+    \renewcommand*\glossaryname{List of abbreviations}%
+    \renewcommand*\entryname{Abbreviation}
+    \renewcommand*\descriptionname{Meaning}
+  \fi
   % Definice zkratek - z textu se odkazují např. \Gls{TF–IDF}
   % Definition of abbreviations - referred from the text e.g. \Gls{TF–IDF}
   %\newglossaryentry{TF–IDF}
@@ -250,8 +250,8 @@ I have listed all the literary sources, publications and other sources, which we
   %  description={Term Frequency-Inverse Document Frequency}
   %}
   % 
-  %\setglossarystyle{superragged}
-  %\printglossaries
+  \setglossarystyle{superragged}
+  \printglossaries
 
 
   \ifODSAZ
@@ -268,17 +268,19 @@ I have listed all the literary sources, publications and other sources, which we
 
   % Text prace / Thesis text
   % ----------------------------------------------
-  \ifenglish
-    \input{projekt-01-kapitoly-chapters-en}
-  \else
-    \input{projekt-01-kapitoly-chapters}
-  \fi
+
+  %NOTE TO SELF: tutorial files
+  %\ifenglish
+  %  \input{projekt-01-kapitoly-chapters-en}
+  %\else
+  %  \input{projekt-01-kapitoly-chapters}
+  %\fi
   
   % Kompilace po částech (viz výše, nutno odkomentovat a zakomentovat input výše)
   % Compilation piecewise (see above, it is necessary to uncomment it and comment out input above)
-  %\subfile{chapters/projekt-01-uvod-introduction}
-  % ...
-  %\subfile{chapters/projekt-05-zaver-conclusion}
+  \subfile{chapters/projekt-01-uvod-introduction}
+  \subfile{chapters/projekt-02-celularni_aut-cellular_aut}
+  \subfile{chapters/projekt-03-strojove_uceni-machine_learning}
 
   % Pouzita literatura / Bibliography
   % ----------------------------------------------
