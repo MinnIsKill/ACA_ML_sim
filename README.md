@@ -9,6 +9,10 @@ BT-ACA_ML_sim/
 │   │   ├── czplain.bst
 │   |   ├── enplain.bst
 │   │   └── skplain.bst
+|   ├── chapters
+|   |   ├── projekt-01-uvod-introduction.tex
+|   |   ├── projekt-02-celularni_aut-cellular_aut.tex
+|   |   └── projekt-03-strojove_uceni-machine_learning.tex
 │   ├── obrazky-figures/
 │   │   ├── keep-calm.png
 │   │   └── placeholder.pdf
@@ -17,8 +21,8 @@ BT-ACA_ML_sim/
 │   │   ├── VUT_symbol_barevne_CMYK_CZ.pdf
 │   │   ├── VUT_symbol_cernobile_CZ.eps
 │   │   └── VUT_symbol_cernobile_CZ.pdf
-│   ├── Makefile
 │   ├── fitthesis.cls
+│   ├── Makefile
 │   ├── projekt-01-kapitoly-chapters-en.tex
 │   ├── projekt-01-kapitoly-chapters.tex
 │   ├── projekt-20-literatura-bibliography.bib
