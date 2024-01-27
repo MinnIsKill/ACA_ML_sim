@@ -1,0 +1,182 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+% Modified by Jeremie Gillet in March 2017 to make an OIST template
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% !!!!!
+%    I HEREBY SWEAR NOT TO USE THIS TEMPLATE FOR ANY MEANS WHICH WOULD 
+%    IN ANY WAY LEAD TO A MONETARY GAIN
+% !!!!!
+
+% Author (aside from template, obviously): Vojtech Kalis (xkalis03), presentation created 
+%                                                                    for a project for presentation of BT, VUTBR FIT
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[10pt]{beamer}
+
+\usepackage{graphicx} % Allows to include images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{textcomp}
+
+\usepackage{animate} %For gifs (split into pngs)
+%\usepackage{multimedia} %For videos
+
+%magick was used to convert gifs to pngs - https://imagemagick.org/index.php
+%$ magick convert -coalesce Game_of_Life.gif Game_of_Life.png
+%$ magick convert -coalesce SmoothLife.gif SmoothLife.png
+
+\mode<presentation> {
+
+\usetheme{default}
+
+\usecolortheme[named=white]{structure} % White titles and such
+\setbeamercolor{normal text}{fg=white} % White text
+\setbeamercolor{background canvas}{bg=black} % Black background
+\setbeamertemplate{itemize item}{\color{white}$\bullet$} % Comment this line for default bullet points (triangles)
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\setbeamertemplate{navigation symbols}{} % No navigation symbols
+\setbeamertemplate{footline}
+ {\begin{minipage}{125mm} \vspace{-4 mm} \hfill \textbf{\normalsize{\insertframenumber\,/\,\inserttotalframenumber}} \end{minipage}}
+ }
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE SETUP
+%----------------------------------------------------------------------------------------
+
+\vspace*{-1cm}
+\title[Short title]{BT - Simulace Biologických Procesů pomocí Asynchronních Celulárních Automatů a Strojového Učení\\\vspace{0.5cm}}
+\subtitle{}
+\author{Vojtěch Kališ, xkalis03\\\vspace{0.2cm}Vedoucí práce: Ing. Karel Fritz}
+\date{}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+
+%------------------------------------------------
+%	TITLE PAGE
+\setbeamertemplate{background}{\includegraphics[width=\paperwidth, trim = 0 0 0 -17]{img/title.png}} % Adding the background logo for the title page
+
+\begin{frame}[plain]
+\vspace*{1.55cm}
+\titlepage
+\end{frame}
+
+\setbeamertemplate{background}{\includegraphics[width=\paperwidth]{img/background.png}} % Adding the background logo for the rest of the slides
+
+%------------------------------------------------
+%	GOALS
+\begin{frame}
+	\frametitle{Cíle práce}
+	\begin{itemize}[<+->]
+		\pause
+		\item Celulární Automaty a Strojové Učení
+			\begin{itemize}[<2->]
+				\item individuální studie
+				\item sloučení konceptů + benefity
+			\end{itemize}
+		\pause
+		\vspace{0.2cm}
+		\item Emergence, Emergentní chování
+			\begin{itemize}[<4->]
+				\item přehlížené téma
+				\item obtížnost studie
+				\item benefity
+			\end{itemize}
+		\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+%	PROPOSED SOLUTION
+\begin{frame}
+	\frametitle{Návrh řešení}
+	Uvedení do tématu a prezentace výsledků
+	\vspace*{0.5cm}
+	\begin{itemize}[<+->]
+		\pause
+		\item Conway's Game of Life
+			\begin{itemize}[<2->]
+				\item základní báze znalostí
+			\end{itemize}
+		\pause
+		\vspace{0.2cm}
+		\item SmoothLife
+			\begin{itemize}[<4->]
+				\item kontinuální stavový prostor
+				\item rozšířené okolí buňky
+			\end{itemize}
+		\pause
+		\vspace{0.2cm}
+		\item Lenia
+			\begin{itemize}[<6->]
+				\item asynchronismus + kontinuální čas
+				\item zakomponování strojového učení - emergence
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+%	CURRENT PROGRESS - GAME OF LIFE
+\begin{frame}
+	\frametitle{Informace o stavu řešení}
+	\centering
+	\parbox{\textwidth}{
+		\centering
+		Conway's Game of Life
+		\vspace{0.2cm}
+	}
+	\parbox{0.6\textwidth}{
+		\animategraphics[width=0.6\textwidth, autoplay, loop]{8}{gif/Game_of_Life-}{0}{456}
+	}
+\end{frame}
+
+%------------------------------------------------
+%	CURRENT PROGRESS - SMOOTHLIFE
+\begin{frame}
+	\frametitle{Informace o stavu řešení}
+	\centering
+	\parbox{\textwidth}{
+		\centering
+		SmoothLife
+		\vspace{0.2cm}
+	}
+	\parbox{0.6\textwidth}{
+		\animategraphics[width=0.6\textwidth, autoplay, loop]{8}{gif/SmoothLife-}{0}{199}
+	}
+\end{frame}
+
+%------------------------------------------------
+%	LITERATURE
+\begin{frame}
+	\frametitle{Přečtená literatura}
+	\begin{itemize}
+		\item "Ordered asynchronous processes in multi-agent systems", 2005 - D. Cornforth, D. G. Green, D. Newth
+		\item "Growing Neural Cellular Automata", 2020 - A. Mordvintsev, E. Randazzo, E. Niklasson, M. Levin
+		\item "Cellular Automata Models in Biology", 1990 - D. G. Green
+		\item "Studying Growth with Neural Cellular Automata", 2022 - S. Greydanus
+		\item "Asynchronous cellular automata", 2017 - Nazim A. Fatès
+		\item "Lenia - Artificial Life from Algorithms" - Birdbrain (https://www.youtube.com/watch?v=6kiBYjvyojQ)
+	\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\end{document} 
