@@ -4,7 +4,7 @@
     VUTBR ID: xkalis03
 
     Brief:    SmoothLife PyTorch machine learning implementation
-"""
+""" 
 
 import torch
 import numpy as np

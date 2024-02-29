@@ -24,7 +24,7 @@ import torch
 
 """
     Game of Life class
-"""
+""" 
 class CL_Game_of_Life(QWidget):
 
     def __init__(self, parent=None):

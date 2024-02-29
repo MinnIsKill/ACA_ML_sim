@@ -2,10 +2,6 @@
     File:     SmoothLife.py
     Author:   Vojtěch Kališ
     VUTBR ID: xkalis03
-<<<<<<< HEAD
-=======
-    Date:     27.1.2024
->>>>>>> 4c2e38e2b1d9740f457327f6c13a5a5b4953a538
 
     Brief:    SmoothLife PyTorch implementation
 
@@ -13,19 +9,15 @@
                         Stephan Rafler, 2011, https://arxiv.org/pdf/1111.1567.pdf
 """
 
-<<<<<<< HEAD
 import sys
 from PyQt5.QtWidgets import QWidget, QGraphicsScene, QGraphicsView, QPushButton, QVBoxLayout, QHBoxLayout, QFrame, QApplication, QCheckBox
 from PyQt5.QtGui import QImage, QPixmap, QColor
 from PyQt5.QtCore import QTimer
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-=======
->>>>>>> 4c2e38e2b1d9740f457327f6c13a5a5b4953a538
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import animation
-<<<<<<< HEAD
 from SmoothLife_predictor_trainer import FutureStatePredictor
 
 """ 
@@ -40,14 +32,6 @@ class Basic_rules(torch.nn.Module):
             Initialize necessities
         """
         super(Basic_rules, self).__init__()
-=======
-
-#NOTE: The rules are basically 1:1 copies from the paper above (because I rushed this so it's done by midterm). 
-#      It shall remain this way until I've gotten a better grasp of the underlying math, at which point they will be adjusted.
-class BasicRules(torch.nn.Module):
-    def __init__(self, birth_interval, survival_interval, sigmoid_widths):
-        super(BasicRules, self).__init__()
->>>>>>> 4c2e38e2b1d9740f457327f6c13a5a5b4953a538
         #birth intervals
         self.B1, self.B2 = birth_interval
         #death intervals
@@ -56,13 +40,10 @@ class BasicRules(torch.nn.Module):
         self.N, self.M = sigmoid_widths
 
     def apply_rules(self, n, m):
-<<<<<<< HEAD
         """ 
             Basic rules application
         """
         #get current degree of being alive based on the sigmoid function
-=======
->>>>>>> 4c2e38e2b1d9740f457327f6c13a5a5b4953a538
         aliveness = 1.0 / (1.0 + torch.exp(-4.0 / self.M * (m - 0.5)))
         #if cell is dead && neighbour density between B1 and B2, cell becomes alive
         #if cell is alive && neighbour density between D1 and D2, cell stays alive
@@ -75,7 +56,6 @@ class BasicRules(torch.nn.Module):
         new_aliveness = sigmoid1 * sigmoid2
         return torch.clamp(new_aliveness, 0, 1)
 
-<<<<<<< HEAD
 """ 
     Convolution class
 """
@@ -85,21 +65,13 @@ class Convolution(torch.nn.Module):
         """ 
             Initialize necessities
         """
-=======
-class Convolution(torch.nn.Module):
-    def __init__(self, size, inner_radius, outer_radius_multiplier):
->>>>>>> 4c2e38e2b1d9740f457327f6c13a5a5b4953a538
         super(Convolution, self).__init__()
         self.inner_radius = inner_radius
         self.outer_radius_multiplier = outer_radius_multiplier
         self.compute_transforms(size)
 
     def compute_transforms(self, size):
-<<<<<<< HEAD
         #convert size tuple to a tensor and then to a numpy array
-=======
-        # Convert size tuple to a tensor and then to a numpy array
->>>>>>> 4c2e38e2b1d9740f457327f6c13a5a5b4953a538
         size_tensor = torch.tensor(size)
         size_np = size_tensor.numpy()
 
@@ -112,11 +84,7 @@ class Convolution(torch.nn.Module):
         self.N = torch.fft.fft2(annulus)
 
     def generate_circle(self, size, radius, roll=True, logres=None):
-<<<<<<< HEAD
         #convert size tuple to a tensor
-=======
-        # Convert size tuple to a tensor and then to a numpy array
->>>>>>> 4c2e38e2b1d9740f457327f6c13a5a5b4953a538
         size_tensor = torch.tensor(size)
 
         yy, xx = torch.meshgrid(torch.arange(size[0]), torch.arange(size[1]), indexing='ij')
@@ -130,7 +98,6 @@ class Convolution(torch.nn.Module):
             logistic = torch.roll(logistic, size[1] // 2, dims=1)
         return logistic
 
-<<<<<<< HEAD
 """
     SmoothLife class
 """
@@ -148,23 +115,11 @@ class CL_SmoothLife(torch.nn.Module):
         #clear
         self.grid = torch.zeros((self.height, self.width))
         self.grid_save = self.grid.clone()
-=======
-class SmoothLife(torch.nn.Module):
-    def __init__(self, height, width, birth_range, survival_range, sigmoid_widths, inner_radius, outer_radius_multiplier):
-        super(SmoothLife, self).__init__()
-        self.width = width
-        self.height = height
-        self.convolution = Convolution((height, width), inner_radius, outer_radius_multiplier)
-        self.rules = BasicRules(birth_range, survival_range, sigmoid_widths)
-        #clear
-        self.field = torch.zeros((self.height, self.width))
->>>>>>> 4c2e38e2b1d9740f457327f6c13a5a5b4953a538
 
     def forward(self):
         """
             SmoothLife step
         """
-<<<<<<< HEAD
         #create a new grid
         grid_transformed = torch.fft.fft2(self.grid)
         #calculate inner and outer filling
@@ -201,18 +156,6 @@ class SmoothLife(torch.nn.Module):
 
     def apply_multiplier(self, grid_transformed, multiplier):
         return grid_transformed * multiplier
-=======
-        field_transformed = torch.fft.fft2(self.field)
-        M_buffer = self.apply_multiplier(field_transformed, self.convolution.M)
-        N_buffer = self.apply_multiplier(field_transformed, self.convolution.N)
-        M_real = torch.real(torch.fft.ifft2(M_buffer))
-        N_real = torch.real(torch.fft.ifft2(N_buffer))
-        self.field = self.rules.apply_rules(N_real, M_real)
-        return self.field
-
-    def apply_multiplier(self, field_transformed, multiplier):
-        return field_transformed * multiplier
->>>>>>> 4c2e38e2b1d9740f457327f6c13a5a5b4953a538
 
     def init_space(self, inner_radius, count=None, intensity=1):
         """
@@ -224,7 +167,6 @@ class SmoothLife(torch.nn.Module):
             radius = int(inner_radius)
             r = torch.randint(0, self.height - radius, (1,))
             c = torch.randint(0, self.width - radius, (1,))
-<<<<<<< HEAD
             self.grid[r: r + radius, c: c + radius] = intensity
         self.grid_save = self.grid.clone()
 
@@ -397,43 +339,3 @@ if __name__ == '__main__':
     window = SmoothLife_GUI()
     window.show()
     sys.exit(app.exec_())
-=======
-            self.field[r: r + radius, c: c + radius] = intensity
-
-
-if __name__ == "__main__":
-    #set output to 512x512 resolution
-    width = 512
-    height = 512
-
-    #main simulation values - adjust for different outcomes
-    birth_interval = (0.28, 0.37)    #
-    survival_interval = (0.27, 0.45) #
-    sigmoid_widths = (0.03, 0.15)    #
-    inner_radius = 6.0               #
-    outer_radius_multiplier = 3.0    #
-
-    #create SmoothLife instance
-    sl = SmoothLife(height, width, birth_interval, survival_interval, sigmoid_widths, inner_radius, outer_radius_multiplier)
-    #initialize simulation space
-    sl.init_space(inner_radius)
-
-    fig, ax = plt.subplots(figsize=(width / 100, height / 100), dpi=100)
-    im = ax.imshow(sl.field.squeeze().detach().numpy(), cmap=plt.get_cmap("gray"), aspect="equal", extent=[0, width, 0, height])
-
-    #set figure frame invisible
-    fig.patch.set_visible(False)
-    ax.axis('off')
-
-    def animate(frame):
-        sl()
-        im.set_array(sl.field.squeeze().numpy())
-        return (im,)
-
-    ani = animation.FuncAnimation(fig, animate, frames=200, interval=50, blit=True)
-
-    #adjust layout to reduce white space
-    fig.subplots_adjust(left=0, right=1, bottom=0, top=1)
-    #save the animation as an MP4 file
-    ani.save('SmoothLife.mp4', writer='ffmpeg', fps=10)
->>>>>>> 4c2e38e2b1d9740f457327f6c13a5a5b4953a538

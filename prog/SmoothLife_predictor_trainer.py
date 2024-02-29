@@ -4,7 +4,7 @@
     VUTBR ID: xkalis03
 
     Brief:    SmoothLife PyTorch machine learning predictor trainer implementation
-"""
+""" 
 
 import torch.nn as nn
 
