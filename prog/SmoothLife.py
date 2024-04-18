@@ -18,7 +18,7 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import animation
-from SmoothLife_predictor_trainer import FutureStatePredictor
+from predictor_trainer import FutureStatePredictor
 
 """ 
     Class for basic rules (not advanced ones)
@@ -170,6 +170,9 @@ class CL_SmoothLife(torch.nn.Module):
             self.grid[r: r + radius, c: c + radius] = intensity
         self.grid_save = self.grid.clone()
 
+"""
+    SmoothLife GUI class
+"""
 class SmoothLife_GUI(QWidget):
 
     def __init__(self, parent=None):
