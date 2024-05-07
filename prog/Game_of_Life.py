@@ -11,10 +11,6 @@
               4. If a dead cell has exactly three live neighbours, it becomes a live cell (reproduction).
 """
 
-# run XLaunch
-#$ export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
-#$ python Game_of_Life.py
-
 import numpy as np
 from PyQt5.QtWidgets import QWidget, QGraphicsScene, QGraphicsView, QPushButton, QVBoxLayout, QHBoxLayout, QFrame, QApplication
 from PyQt5.QtGui import QImage, QPixmap, QColor
@@ -262,10 +258,11 @@ class CL_Game_of_Life(QWidget):
 
         #obtain count of alive neighbours for each individual cell using convolution (slight PyTorch magic involved)
         alive_neighbours_cnt = torch.nn.functional.conv2d(self.grid.unsqueeze(0), self.neighbour_filter, padding=1)
-        #convert self.grid into a new tensor where each value is represented as a byte
+        #convert self.grid into a new tensor where each value is represented as a byte to ensure that
+        #all elements in self.grid strictly conform to being 0 or 1 to avoid unexpected behavior
         alive = self.grid.byte()
 
-        #implement Rule #1 (more PyTorch magic)
+        #implement Rule #1 (so, check if a cell is alive and has 2 or 3 alive neighbours)
         new_grid = (alive & (torch.eq(alive_neighbours_cnt.squeeze(), 2) |
                              torch.eq(alive_neighbours_cnt.squeeze(), 3))).float()
         #implement Rule #4 (more PyTorch magic)

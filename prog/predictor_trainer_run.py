@@ -1,10 +1,10 @@
 """
-    File:     SmoothLife_predictor_trainer_run.py
+    File:     predictor_trainer_run.py
     Author:   Vojtěch Kališ
     VUTBR ID: xkalis03
 
-    Brief:    SmoothLife PyTorch machine learning predictor trainer run implementation
-""" 
+    Brief:    PyTorch machine learning predictor trainer run implementation
+"""
 
 import sys
 import torch
@@ -12,11 +12,11 @@ import torch.nn as nn
 import torch.optim as optim
 from SmoothLife import CL_SmoothLife
 from Lenia import CL_Lenia
-from predictor_trainer import FutureStatePredictor
+from predictor_trainer import Future_state_predictor
 
 if __name__ == "__main__":
 #define SmoothLife instance
-    #NOTE: adjust height and width if you've changed those in SmoothLife.py as well!!!
+    #NOTE: adjust parameters if you've changed those in SmoothLife_GUI.py as well!!!
     #      (you'll get a "size mismatch" error when trying to use a model trained on different height and width)
     if len(sys.argv) == 2: #two arguments ("predictor_trainer_run.py and one other")
         if sys.argv[1] == "SmoothLife":
@@ -36,22 +36,22 @@ if __name__ == "__main__":
             print("accepted arguments:   SmoothLife | Lenia-smooth | Lenia-orbium")
             exit(1)
     else:
-        print("Argument missing, or too many arguments received.") 
-        print("Argument specifying model is required.")
-        print("Accepted arguments:   SmoothLife | Lenia-smooth | Lenia-orbium")
+        print("argument missing, or too many arguments received.") 
+        print("argument specifying model is required.")
+        print("accepted arguments:   SmoothLife | Lenia-smooth | Lenia-orbium")
         exit(1)
 
-#define predictor (FutureStatePredictor)
+#define predictor (Future_state_predictor)
     #get size of grid
     input_size = model.grid.numel()
     output_size = input_size
     #initialize predictor
-    predictor = FutureStatePredictor(input_size, 64, output_size)
+    predictor = Future_state_predictor(input_size, 64, output_size)
     #initialize optimizer
     optimizer = optim.Adam(predictor.parameters(), lr=0.001)
     criterion = nn.MSELoss()
 
-#generate training data from SmoothLife simulation
+#generate training data from the respective simulation
     #number of sample data
     num_samples = 2000
     train_inputs = []
@@ -67,32 +67,29 @@ if __name__ == "__main__":
             model.grid = model.forward()
             future_state = model.grid.clone().detach()
 
-            train_inputs.append(current_state.view(0, 1))
-            train_targets.append(future_state.view(0, 1))
+            train_inputs.append(current_state.view(1, -1))
+            train_targets.append(future_state.view(1, -1))
     elif sys.argv[1] == "Lenia-smooth" or sys.argv[1] == "Lenia-orbium":
-        num_steps = 3 #simulate Lenia's evolution for 3 steps
         for h in range(num_samples):
             if h % 500 == 0:
-                print(f"    Train input #{h}")
-
-            # Record the initial state
+                print(f"    train input #{h}")
             current_state = model.grid.clone().detach()
-            input_sequence = [current_state]
+            model.grid = model.forward(asynchronous=True)
+            future_state = model.grid.clone().detach()
 
-            # Simulate Lenia's evolution for multiple steps
-            for _ in range(num_steps):
-                model.grid = model.forward(asynchronous=True)
-                current_state = model.grid.clone().detach()
-                input_sequence.append(current_state)
-
-            # Generate input-output pairs
-            for i in range(len(input_sequence) - 1):
-                train_inputs.append(input_sequence[i].view(1, -1))
-                train_targets.append(input_sequence[i + 1].view(1, -1))
+            train_inputs.append(current_state.view(1, -1))
+            train_targets.append(future_state.view(1, -1))
     print("done")
 
     #move model and data to GPU, if possible
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print("trying to acces Cuda...")
+    if torch.cuda.is_available():
+        print("Cuda found, model moved to GPU")
+        device = torch.device("cuda")
+    else:
+        print("Cuda not found, model moved to CPU")
+        device = torch.device("cpu")
+        
     predictor.to(device)
 
     #stack train inputs and targets (to lighten load)
@@ -124,7 +121,7 @@ if __name__ == "__main__":
 
         #if loss value went up, we're encountered overfitting ==> stop training
         if old_loss < loss.item() and old_loss != 0.0:
-            print(f"Overfitting encountered at epoch {epoch}, training stopped.")
+            print(f"overfitting encountered at epoch {epoch}, training stopped.")
             break
         old_loss = loss.item()
 
@@ -132,7 +129,7 @@ if __name__ == "__main__":
 
         #print progress
         if epoch % 10 == 0:
-            print(f'Epoch {epoch}, Loss: {loss.item()}')
+            print(f'epoch {epoch}, loss: {loss.item()}')
 
 #save the trained model
     if sys.argv[1] == "SmoothLife":
@@ -141,4 +138,4 @@ if __name__ == "__main__":
         torch.save(predictor.state_dict(), "Lenia-smooth_predictor.pth")
     elif sys.argv[1] == "Lenia-orbium":
         torch.save(predictor.state_dict(), "Lenia-orbium_predictor.pth")
-    print("Model training completed and saved.")
+    print("model training completed and saved.")
