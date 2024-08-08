@@ -12,8 +12,6 @@ BT-ACA_ML_sim/
 │   │   ├── 03_Backpropagation.py
 │   │   └── link.txt
 │   ├── Growing_CA_PyTorch
-│   │   ├── __pycache__/
-│   │   │   └── Growing_CA_model.cpython-310.pyc
 │   │   ├── logs/
 │   │   │   ├── events.out.tfevents.1697803157.DESKTOP-JLET3CE.3924.0
 │   │   │   └── events.out.tfevents.1697803331.DESKTOP-JLET3CE.3956.0
