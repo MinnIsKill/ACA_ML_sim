@@ -1,4 +1,4 @@
-## Bachelor's Thesis - Simulation of Biological Processes using Asynchronous Cellular Automata and Machine Learning
+## Simulation of Biological Processes using Asynchronous Cellular Automata and Machine Learning
 Conway's Game of Life, SmoothLife and Lenia simulations with ML influence
 
 ## Contents
