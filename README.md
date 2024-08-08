@@ -29,7 +29,17 @@ BT-ACA_ML_sim/
 │       ├── main.py
 │       └── network_trainer.py
 ├── prog/
-│   ├── GoL.mp4
-│   └── GoL.py
+│   ├── Game_of_Life.py
+│   ├── Lenia.py
+│   ├── Lenia_GUI.py
+│   ├── README.md
+│   ├── SmoothLife.py
+│   ├── SmoothLife_GUI.py
+│   ├── check_cuda.py
+│   ├── main.py
+│   ├── predictor_trainer.py
+│   ├── predictor_trainer_run.py
+│   └── requirements.txt
+├── Literatura
 └── README.md
 ```
