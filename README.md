@@ -3,7 +3,7 @@ Conway's Game of Life, SmoothLife and Lenia simulations with ML influence
 
 ## Contents
 ```
-BT-ACA_ML_sim/
+ACA_ML_sim/
 ├── CA_test_programmes/
 │   ├── DL_with_PyTorch
 │   │   ├── 01_Tensor_basics.py
